@@ -1,0 +1,57 @@
+.wrapper {
+    border: 5px solid lavender;
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    background-color: lightskyblue;
+    padding: 10px;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.display {
+    border: 5px solid cornflowerblue;
+    width: 150px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: lavender;
+    padding: 10px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.text {
+    font-size: 50px;
+    color: floralwhite;
+    margin-top: 0px;
+    margin-left: 60px;
+}
+
+.button-inc {
+    border: 1px solid dodgerblue;
+    width: 75px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: cornflowerblue;
+    padding: 10px;
+    margin-left: 20px;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.button-reset {
+    border: 1px solid dodgerblue;
+    width: 75px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: cornflowerblue;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.attention {
+    font-size: 50px;
+    color: hotpink;
+    margin-top: 0px;
+    margin-left: 60px;
+}
