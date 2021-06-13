@@ -1,11 +1,16 @@
 import React from "react";
 import './App.css';
+import {StatusType} from "./App";
 
 type DisplayPropsType = {
-    counter: number
+    className: string
+    counter?: number
+    message?: string
 }
 
 export function Display(props: DisplayPropsType) {
-    return <div className='display'><p className={props.counter < 5 ? 'text' : 'attention'}>
-        {props.counter <6 ? props.counter : 5}</p></div>
+    return (
+        <div className='display'><p className={props.className}>
+            {props.message ? props.message : props.counter}</p></div>
+    )
 }

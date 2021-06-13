@@ -13,7 +13,7 @@ export function Button(props: ButtonPropsType) {
     return (
         <button onClick={props.clickButton}
                 className={props.className}
-                disabled={!props.state}>{props.title}
+            disabled={!props.state}>{props.title}
         </button>
     )
 }
