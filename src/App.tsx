@@ -7,33 +7,28 @@ import {EntryField} from "./EntryFiled";
 export type StatusType = 'Setting' | 'Error' | 'Count'
 
 function App() {
-    const [counter, setCounter] = useState<number>(0)
     const [startValue, setStartValue] = useState<number>(0)
-    const [maxValue, setMaxValue] = useState<number>(0)
+    const [maxValue, setMaxValue] = useState<number>(1)
+    const [counter, setCounter] = useState<number>(startValue)
     const [status, setStatus] = useState<StatusType>('Setting')
 
-    const truValues = startValue >= 0 && maxValue >= 0 && startValue < maxValue
+    const truValues = ((startValue >= 0) && (maxValue >= 0) && (startValue < maxValue))
 
-    /*type Button = {
-        state: boolean
-        title: string
-    }*/
     const onChangeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setStartValue(+e.currentTarget.value)
-        debugger
-        if (truValues) {
-            return setStatus('Setting')
+        const nextStartValue = +e.currentTarget.value
+        setStartValue(nextStartValue)
+        if ((nextStartValue >= 0) && (maxValue >= 0) && (nextStartValue < maxValue)) {
+            setStatus('Setting')
         } else {
-            return setStatus('Error')
+            setStatus('Error')
         }
-
     }
     const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
         setMaxValue(+e.currentTarget.value)
-        if (truValues) {
-            return setStatus('Setting')
+        if ((startValue >= 0) && (maxValue >= 0) && (startValue < maxValue)) {
+            setStatus('Setting')
         } else {
-            return setStatus('Error')
+            setStatus('Error')
         }
     }
     const setButton = () => {
@@ -43,7 +38,7 @@ function App() {
         setStatus('Count')
     }
     const incButton = () => {
-        setCounter(counter+1)//+1
+        setCounter(counter + 1)//+1
     }
     const resetButton = () => {
         setCounter(startValue)
@@ -51,49 +46,82 @@ function App() {
 
     useEffect(() => {
         let startValueAsString = localStorage.getItem('startValue')
+        let maxValueAsString = localStorage.getItem('maxValue')
+
         if (startValueAsString) {
             let newStartValue = JSON.parse(startValueAsString)
             setStartValue(newStartValue)
         }
-    }, [])
-
-    useEffect(() => {
-        let maxValueAsString = localStorage.getItem('maxValue')
         if (maxValueAsString) {
             let newMaxValue = JSON.parse(maxValueAsString)
             setMaxValue(newMaxValue)
         }
     }, [])
+
+    // useEffect(() => {
+    // debugger
+    // let startValueAsString = localStorage.getItem('startValue')
+    // if (startValueAsString) {
+    //     let newStartValue = JSON.parse(startValueAsString)
+    //     setStartValue(newStartValue)
+    // }
+    // }, [])
+
+    // useEffect(() => {
+    // debugger
+    // let maxValueAsString = localStorage.getItem('maxValue')
+    // if (maxValueAsString) {
+    //     let newMaxValue = JSON.parse(maxValueAsString)
+    //     setMaxValue(newMaxValue)
+    // }
+    // }, [])
+
     useEffect(() => {
-        localStorage.setItem('startValue', JSON.stringify(startValue))}, [startValue])
+        // debugger
+        localStorage.setItem('startValue', JSON.stringify(startValue))
+    }, [startValue])
+
     useEffect(() => {
-        localStorage.setItem('maxValue', JSON.stringify(maxValue))}, [maxValue])
+        // debugger
+        localStorage.setItem('maxValue', JSON.stringify(maxValue))
+    }, [maxValue])
 
     return (
         <div>
             <div className='wrapper'>
-                <p className='textSetting'>Start Value</p><EntryField className={truValues ?'input-initial' : 'input-initial-error'} value={startValue} onChange={onChangeStartValue}/>
-                <p className='textSetting'>Max Value</p><EntryField className={truValues ?'input-initial' : 'input-initial-error'} value={maxValue} onChange={onChangeMaxValue}/>
+                <p className='textSetting'>Start Value</p>
+                <EntryField
+                    className={status === 'Error' ? 'input-initial-error' : 'input-initial'}
+                    value={startValue}
+                    onChange={onChangeStartValue}/>
+                <p className='textSetting'>Max Value</p>
+                <EntryField
+                    className={status === 'Error' ? 'input-initial-error' : 'input-initial'}
+                    value={maxValue}
+                    onChange={onChangeMaxValue}/>
                 <div>
-                    <Button state={truValues}
-                     title="set"
-                     clickButton={setButton}
-                     className='button-set'/>
+                    <Button
+                        state={status === 'Setting'}
+                        title="set"
+                        clickButton={setButton}
+                        className='button-set'/>
                 </div>
             </div>
             <div className='wrapper'>
                 <Display
-                    className={ status === 'Setting' ? 'display-text-setting' : status === 'Error' ? 'display-text-error' : counter < maxValue ? 'textDisplay' : 'attentionDisplay'}
+                    className={status === 'Setting' ? 'display-text-setting' : status === 'Error' ? 'display-text-error' : counter < maxValue ? 'textDisplay' : 'attentionDisplay'}
                     message={status === 'Error' ? 'Error' : status === 'Setting' ? 'Enter value and press Set' : ''}
-                    counter={counter <= maxValue  ? counter : maxValue}
+                    counter={counter <= maxValue ? counter : maxValue}
                 />
-                <div className='display-button' >
+                <div className='display-button'>
 
-                    <Button state={counter < maxValue}
-                            title="inc"
-                            clickButton={incButton}
-                            className='button-inc'/>
-                    <Button  state={counter > startValue}
+                    <Button
+                        state={counter < maxValue}
+                        title="inc"
+                        clickButton={incButton}
+                        className='button-inc'/>
+                    <Button
+                        state={counter > startValue}
                         title="reset"
                         clickButton={resetButton}
                         className='button-reset'/>
